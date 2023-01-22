@@ -1,0 +1,129 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: tgdb
+  labels:
+    app: tgdb
+spec:
+  type: ClusterIP
+  ports:
+  - port: 3306
+    targetPort: 3306
+    protocol: TCP
+  selector:
+    app: tgdb
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tgweb
+  labels:
+    app: tgweb
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8000
+    targetPort: 8000
+    protocol: TCP
+  selector:
+    app: tgweb
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tgtraffic
+  labels:
+    app: tgtraffic
+spec:
+  type: ClusterIP
+  ports:
+  - port: 5005
+    targetPort: 5005
+    protocol: TCP
+  selector:
+    app: tgtraffic
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tgdb
+spec:
+  selector:
+    matchLabels:
+      app: tgdb
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: tgdb
+    spec:
+#    pull secret if needed
+#     imagePullSecrets:
+#     - name: docker-secret
+      containers:
+        - name: tgdb
+          image: seantywork/tgdb
+          volumeMounts:
+            - mountPath: /var/lib/mysql
+              name: tgdb-claim0
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 3306
+      volumes:
+        - name: tgdb-claim0
+          persistentVolumeClaim:
+            claimName: tgdb-claim0
+---
+# default stogarge class for dynamic provisioning should exist in advance (extendable)
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: tgdb-claim0
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tgweb
+spec:
+  selector:
+    matchLabels:
+      app: tgweb
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: tgweb
+    spec:
+      containers:
+      - name: tgweb
+        image: seantywork/tgweb
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tgtraffic
+spec:
+  selector:
+    matchLabels:
+      app: tgtraffic
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: tgtraffic
+    spec:
+     containers:
+     - name: tgtraffic
+       image: seantywork/tgtraffic
+       imagePullPolicy: Always
+       ports:
+       - containerPort: 5005

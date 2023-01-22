@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: clusterdebugger
+  labels:
+    app: clusterdebugger
+spec:
+  type: ClusterIP
+  ports:
+  - port: 6700
+    targetPort: 6700
+    protocol: TCP
+  selector:
+    app: clusterdebugger
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: clusterdebugger
+spec:
+  selector:
+    matchLabels:
+      app: clusterdebugger
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: clusterdebugger
+    spec:
+#    whatever the node selector that is assigned to a gpu node    
+#     nodeSelector:
+#       gpu-ready: ready
+      containers:
+        - name: clusterdebugger
+          image: seantywork/clusterdebugger
+  #         
+  #     gpu check if there is nvidia gpu
+  #       resources:
+  #         limits:
+  #           nvidia.com/gpu: 1
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 6700
+

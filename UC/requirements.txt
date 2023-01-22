@@ -1,0 +1,8 @@
+gunicorn
+pandas
+openai
+django
+mysql-connector-python
+mysqlclient
+python-dotenv
+django-cors-headers
