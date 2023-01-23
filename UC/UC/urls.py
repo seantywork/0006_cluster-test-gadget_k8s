@@ -21,7 +21,7 @@ urlpatterns = [
     #path('admin/', admin.site.urls),
     #path('',views.ready,name='Maintenance')
     path('',views.passme,name='passme'),
-    path('sendme/',views.sendme,name='sendme')
+    path('sendme',views.sendme,name='sendme')
 ]
 
 

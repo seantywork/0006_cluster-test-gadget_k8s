@@ -1,30 +1,82 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Usage Corpus</title>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Usage Corpus</title>
 
 
-    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/static/css/style.css" rel="stylesheet">
-    <link href="/static/css/output_table.css" rel="stylesheet">
-	<!--Vue properties-->
-	<script defer="defer" src="/static/dist/js/chunk-vendors.js"></script>
-	<script defer="defer" src="/static/dist/js/app.js"></script>
+  <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/static/css/style.css" rel="stylesheet">
+  <link href="/static/css/output_table.css" rel="stylesheet">
+  <!--JS-->
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="/static/dist/js/app.js"></script>
 
-  </head>
-  <body>
-    <div class="bg"></div>
-    <div class="bg bg2"></div>
-    <div class="bg bg3"></div>
-    
-    <div id="app" class="background-yogurt"></div>
+</head>
 
-    <script src="/static/js/jquery.min.js"></script>
-    <script src="/static/js/bootstrap.min.js"></script>
-    <script src="/static/js/scripts.js"></script>
-  </body>
+<body>
+  <div class="bg"></div>
+  <div class="bg bg2"></div>
+  <div class="bg bg3"></div>
+
+  <div id="app" class="background-yogurt">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-8">
+          <h1>
+            Usage Corpus Beta
+          </h1>
+        </div>
+        <div class="col-md-4" id="app-img-switch">
+          <img src="/media/super_cat.jpg" class="rounded-circle">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <p>
+            Contact [ seantywork@gmail.com ] for authorization. Once granted, the auth code is effective up to 10
+            queries.
+          </p>
+          <p>
+            Result page will display maximum 10 results if a matching entry and corresponding usage exist in the DB.
+          </p>
+          <p>
+            Let the SUPER_CAT do the fetching and see how adorably he does that!
+          </p>
+            <div class="form-group">
+              <label for="exampleInputEmail1">
+                Query
+              </label>
+              <input type="text" class="form-control" id="input-query" placeholder="Word or Phrase" required>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">
+                Passcode
+              </label>
+              <input type="password" class="form-control" id="input-psw" placeholder="Passcode" required>
+            </div>
+            <button class="btn btn-primary" onclick="goFetch()">
+              Enter
+            </button>
+        </div>
+        <div class="col-md-6">
+          <strong> Output: </strong>
+          <pre>
+          <table class="table table-striped table-hover table-sm" id="app-result-render">
+          </table>
+          </pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/js/jquery.min.js"></script>
+  <script src="/static/js/bootstrap.min.js"></script>
+  <script src="/static/js/scripts.js"></script>
+</body>
+
 </html>
